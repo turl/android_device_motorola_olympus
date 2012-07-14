@@ -64,13 +64,16 @@ $(call inherit-product, build/target/product/full_base_telephony.mk)
 
 PRODUCT_PACKAGES += Usb \
 			DockAudio \
+			Torch \
 			OlympusParts \
 			hciconfig \
 			hcitool \
 			rilwrap \
 			lights.olympus \
 			hwcomposer.default \
+			camera.olympus \
 			audio.primary.olympus \
+			audio_policy.olympus \
 			audio.a2dp.default
 
 DEVICE_PACKAGE_OVERLAYS += device/motorola/olympus/overlay

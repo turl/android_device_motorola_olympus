@@ -15,7 +15,8 @@
 
 	<CheckBoxPreference
 		android:key="hdmi_audio"
-		android:summary="@string/hdmi_audio_summary"
+		android:summaryOn="@string/hdmi_audio_summary_on"
+		android:summaryOff="@string/hdmi_audio_summary_off"
 		android:title="@string/hdmi_audio_title"
 		android:defaultValue="false"
 	/>

@@ -5,5 +5,4 @@
     <string name="navigation_configuration">Navegação por impressão digital</string>
     <string name="database_administration">Gerenciar impressões digitais</string>
     <string name="hdmi_audio_title">Audio HDMI</string>
-    <string name="hdmi_audio_summary">Habilita ou desabilita audio sobre HDMI</string>
 </resources>

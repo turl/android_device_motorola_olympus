@@ -4,22 +4,24 @@
 ro.sf.lcd_density=240
 
 #RIL
-rild.libpath=/system/lib/rilwrap.so
+#rild.libpath=/system/lib/rilwrap.so
+rild.libpath=/system/lib/libmoto_ril.so
 rild.wraplib=/system/lib/libmoto_ril.so
+rild.libargs=-d /dev/pts/1
 persist.ril.mux.noofchannels=9
 persist.ril.mux.ttydevice=/dev/ttyHS3
 ro.telephony.call_ring.multiple=false
 ro.telephony.call_ring.delay=500
 persist.ril.modem.ttydevice=/dev/ttySPI0
 persist.ril.modem.mode=2
-persist.ril.features=0x24
+persist.ril.features=0x2020
 persist.ril.mux.retries=500
 persist.ril.mux.sleep=2
 ro.kernel.android.ril=yes
 persist.ril.pppd.start.fail.max=16
 mobiledata.interfaces=ppp0
 ro.ril.ntmodeglobal=true
-ro.telephony.ril.v3=datacall,signalstrength,icccarddstatus,skipbrokendatacall
+ro.telephony.ril.v3=signalstrength,skipbrokendatacall,skipnullaid
 
 #Define TCP buffer sizes for various networks
 #ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
@@ -34,13 +36,12 @@ net.tcp.buffersize.gprs=4096,8192,12288,4096,8192,12288
 # 0 -> WCDMA preferred
 ro.telephony.default_network=0
 
+wifi.interface=eth0
+
 # Time between scans in seconds. Keep it high to minimize battery drain.
 # This only affects the case in which there are remembered access points,
 # but none are in range.
 wifi.supplicant_scan_interval=30
-
-# To set wifi (AP) driver's firmware path
-ro.wifi-ap.fw-path=/system/etc/wl/sdio-g-cdc-roml-reclaim-wme-apsta-idauth-minioctl.bin
 
 ro.bt.bdaddr_path=/pds/bt/bt_bdaddr
 

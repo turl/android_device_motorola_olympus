@@ -39,7 +39,6 @@ TARGET_ARCH_VARIANT := armv7-a
 TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_ARCH_VARIANT_FPU := vfpv3-d16
 TARGET_CPU_SMP := true
-TARGET_HAVE_TEGRA_ERRATA_657451 := true
 
 BOARD_CUSTOM_GRAPHICS := ../../../device/motorola/olympus/recovery/graphics.c
 BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/motorola/olympus/recovery/recovery_ui.c
@@ -50,17 +49,17 @@ TARGET_BOOTANIMATION_TEXTURE_CACHE := false
 TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # Kernel configuration for inline building
-TARGET_KERNEL_CONFIG := tegra_olympus_cm9_defconfig
+#TARGET_KERNEL_CONFIG := tegra_olympus_cm9_defconfig
 TARGET_PREBUILT_KERNEL := device/motorola/olympus/kernel
 
-OLYMPUS_WIFI_MODULE:
-	make -C kernel/motorola/olympus/wifi-module/open-src/src/dhd/linux/ \
-	ARCH="arm" CROSS_COMPILE="arm-eabi-" LINUXSRCDIR=kernel/olympus/ \
-	LINUXBUILDDIR=$(KERNEL_OUT) \
-	LINUXVER=$(shell strings "$(KERNEL_OUT)/vmlinux"|grep '2.6.*MB860'|tail -n1) \
-	BCM_INSTALLDIR="$(ANDROID_BUILD_TOP)/$(KERNEL_MODULES_OUT)"
+#OLYMPUS_WIFI_MODULE:
+#	make -C kernel/motorola/olympus/wifi-module/open-src/src/dhd/linux/ \
+#	ARCH="arm" CROSS_COMPILE="arm-eabi-" LINUXSRCDIR=kernel/olympus/ \
+#	LINUXBUILDDIR=$(KERNEL_OUT) \
+#	LINUXVER=$(shell strings "$(KERNEL_OUT)/vmlinux"|grep '2.6.*MB860'|tail -n1) \
+#	BCM_INSTALLDIR="$(ANDROID_BUILD_TOP)/$(KERNEL_MODULES_OUT)"
 
-TARGET_KERNEL_MODULES := OLYMPUS_WIFI_MODULE
+#TARGET_KERNEL_MODULES := OLYMPUS_WIFI_MODULE
 
 BOARD_KERNEL_CMDLINE :=
 BOARD_KERNEL_BASE := 0x10000000
@@ -105,10 +104,6 @@ BOARD_PREINSTALL_DEVICE := /dev/block/mmcblk0p17
 BOARD_PREINSTALL_FILESYSTEM := ext3
 BOARD_HAS_NO_SELECT_BUTTON := true
 
-BOARD_USES_HW_MEDIARECORDER := true
-BOARD_USES_HW_MEDIASCANNER := false
-BOARD_USES_HW_MEDIAPLUGINS := true
-
 TARGET_USES_GL_VENDOR_EXTENSIONS := true
 TARGET_ELECTRONBEAM_FRAMES := 20
 
@@ -117,11 +112,11 @@ BOARD_WPA_SUPPLICANT_DRIVER := WEXT
 WPA_SUPPLICANT_VERSION      := VER_0_8_X
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
 BOARD_WLAN_DEVICE           := bcm4329
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/dhd.ko"
-WIFI_DRIVER_FW_PATH_STA     := "/system/etc/wl/sdio-ag-cdc-full11n-minioctl-roml-pno-wme-aoe-pktfilter-keepalive.bin"
-WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wl/sdio-g-cdc-roml-reclaim-wme-apsta-idauth-minioctl.bin"
-WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/etc/wl/sdio-ag-cdc-full11n-minioctl-roml-pno-wme-aoe-pktfilter-keepalive.bin nvram_path=/system/etc/wl/nvram.txt"
-WIFI_DRIVER_MODULE_NAME     := "dhd"
+WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/bcm4329.ko"
+WIFI_DRIVER_FW_PATH_STA     := "/system/vendor/firmware/fw_bcm4329.bin"
+WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/firmware/fw_bcm4329_apsta.bin"
+WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/vendor/firmware/fw_bcm4329.bin nvram_path=/system/etc/nvram.txt"
+WIFI_DRIVER_MODULE_NAME     := "bcm4329"
 WIFI_DRIVER_SOCKET_IFACE    := eth0
 
 # Bluetooth
@@ -134,22 +129,17 @@ TARGET_SPECIFIC_HEADER_PATH := device/motorola/olympus/include
 
 #EGL
 BOARD_EGL_CFG := device/motorola/olympus/config/egl.cfg
-COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS -DEGL_ALWAYS_ASYNC -DBINDER_COMPAT
 USE_OPENGL_RENDERER := true
-BOARD_NO_ALLOW_DEQUEUE_CURRENT_BUFFER := true
-
-#HDMI
-BOARD_USES_LGE_HDMI_ROTATION := true
 
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 #UMS, MTP
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun%d/file"
-BOARD_MTP_DEVICE := "/dev/mtp"
+#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/f_mass_storage/lun/file"
+#BOARD_MTP_DEVICE := "/dev/mtp"
 
 # Dock Audio
-BOARD_USE_MOTO_DOCK_HACK := true
-
 BOARD_USES_AUDIO_LEGACY := true
+BOARD_USE_MOTO_DOCK_HACK := true
+COMMON_GLOBAL_CFLAGS += -DICS_AUDIO_BLOB -DMOTOROLA_UIDS -DICS_CAMERA_BLOB
 
 BOARD_MOBILEDATA_INTERFACE_NAME := "ppp0"

@@ -8,6 +8,7 @@
 /dev/dw9714l	0660	media	camera
 /dev/ov7739     0660	media	camera
 /dev/ov5650	0660	media	camera
+/dev/soc380	0660	media	camera
 /dev/tegra_camera	0660	media	camera
 /dev/tegra_avp	0660	media	media
 /dev/tegra_rpc	0660	media	media

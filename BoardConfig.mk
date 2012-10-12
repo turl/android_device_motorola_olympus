@@ -98,7 +98,7 @@ BOARD_VOLD_MAX_PARTITIONS := 19
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 BOARD_SDEXT_DEVICE := /dev/block/mmcblk1p2
-BOARD_UMS_LUNFILE := /sys/devices/platform/usb_mass_storage/lun0/file
+BOARD_UMS_LUNFILE := /sys/class/android_usb/android0/f_mass_storage/lun0/file
 BOARD_USES_MMCUTILS := true
 BOARD_PREINSTALL_DEVICE := /dev/block/mmcblk0p17
 BOARD_PREINSTALL_FILESYSTEM := ext3
@@ -134,7 +134,7 @@ USE_OPENGL_RENDERER := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 #UMS, MTP
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/f_mass_storage/lun/file"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 #BOARD_MTP_DEVICE := "/dev/mtp"
 
 # Dock Audio

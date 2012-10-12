@@ -15,6 +15,13 @@ on early-init
 
 on init
     mkdir /pds 0755 root root
+    chmod 0660 /sys/bus/usb/devices/usb1/power/control
+    chmod 0660 /sys/bus/usb/devices/usb2/power/control
+    chown system radio /sys/bus/usb/devices/usb1/power/control
+    chown system radio /sys/bus/usb/devices/usb2/power/control
+
+    # change permission/ownership for command sys file of mdm6600 ctrl driver if present
+    chown system radio /sys/class/radio/mdm6600/command
 
 on early-boot
     setprop ro.FOREGROUND_APP_MEM 3072

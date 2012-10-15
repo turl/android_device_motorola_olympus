@@ -128,39 +128,19 @@ on boot
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
     write /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load 80
 
-#service fbcp /etc/init.d/start_fbcp.sh
-#    class pre_zygote_services
-#    user mot_osh
-#    group mot_osh
-#    oneshot
-
-on property:dev.bootcomplete=1
-    setprop ro.webtop.boot 1
-    start loadpreinstalls
-
-on property:ro.webtop.boot=1
-    exec /system/bin/logwrapper /ubuntu.sh
-
-on property:sys.SystemMode=RM_SM_DOCKED
-    exec /osh/etc/init.d/startX.sh
-
 on device-added-/dev/ttyUSB0
     write /sys/devices/platform/tegra-ehci.2/usb2/2-1/power/autosuspend 2
     write /sys/devices/platform/tegra-ehci.2/usb2/2-1/power/level auto
 
-# Modem panic daemon
-service mdm_panicd /system/bin/mdm_panicd
-    class main
-    oneshot
-
+# Touchscreen
 on device-added-/dev/touchpad
-# Touchpad
     chmod 660 /sys/class/misc/touchpad
     chown compass compass /sys/bus/i2c/drivers/qtouch-obp-ts/0-004a/irqStatus
     chown mot_tcmd mot_tcmd /dev/touchpad
     start touch
 
-service touch /system/bin/logwrapper /system/bin/touchpad -a
+# Touchscreen firmware loader
+service touch /system/bin/touchpad -a
     class main
     user root
     group root
@@ -188,12 +168,7 @@ service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
     disabled
     oneshot
 
-# bugreport is triggered by the VOLUME-DOWN and VOLUME-UP keys
-service bugreport /system/bin/dumpstate -d -v -o /data/storage/bugreports/bugreport
-    disabled
-    oneshot
-    keycodes 115 114
-#BCM
+# Bluetooth
 service hciattach /system/bin/brcm_patchram_plus --enable_hci --enable_lpm \
     --use_baudrate_for_download --baudrate 3000000 --patchram /etc/firmware/BCM4329B1_002.002.023.0757.0780.hcd /dev/ttyHS2
     class main
@@ -201,79 +176,10 @@ service hciattach /system/bin/brcm_patchram_plus --enable_hci --enable_lpm \
     group bluetooth net_bt_admin
     disabled
 
+# Battery
 service battd /system/bin/battd
     class main
     socket battdsock stream 0660 mot_accy mot_accy
     user root
     group mot_accy mot_pwric
-    oneshot
-
-# bcm dev
-on device-added-/dev/tarang
-    chmod 666 /dev/tarang
-
-service gadget-qbp-diag /system/bin/tty2ttyd /dev/ttyUSB0 /dev/ttyGS3 0 1024
-    oneshot
-    disabled
-
-service gadget-qbp-modem /system/bin/tty2ttyd /dev/ttyUSB4 /dev/ttyGS2 0 1024
-    oneshot
-    disabled
-
-on property:ro.bootmode=bp-tools
-    start tcmd
-    start gadget-qbp-diag
-
-#FM radio
-service fmradio /system/bin/fmradioserver
-    class pre-zygote_services
-    user system
-    group bluetooth net_bt_admin net_raw net_admin misc
-    disabled
-
-#Enable DUN and PAN support
-service dund_dialup /system/bin/dund --listen --channel=6 --nodetach --dialup
-    class post-zygote_services
-    group net_bt net_bt_admin
-    disabled
-    oneshot
-
-service nap /system/bin/sdptool add NAP
-    class post-zygote_services
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service del_nap /system/bin/sdptool remove NAP
-    class post-zygote_services
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service panu /system/bin/sdptool add PANU
-    class post-zygote_services
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service del_panu /system/bin/sdptool remove PANU
-    class post-zygote_services
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service napics /system/bin/sh /system/bin/napics.sh
-    class post-zygote_services
-    user root
-    disabled
-    oneshot
-
-service btdhcpd /system/bin/dnsmasq -C /system/etc/btpan.conf
-    class post-zygote_services
-    user root
-    disabled
     oneshot

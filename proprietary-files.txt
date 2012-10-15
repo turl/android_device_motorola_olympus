@@ -101,7 +101,6 @@ lib/librds_util.so #(?)
 lib/libril_rds.so
 bin/pppd-ril
 bin/chat-ril
-bin/mdm_panicd
 etc/ppp/peers/pppd-ril.options
 
 #Touch

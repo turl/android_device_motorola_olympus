@@ -183,3 +183,9 @@ service battd /system/bin/battd
     user root
     group mot_accy mot_pwric
     oneshot
+
+# Dock identification
+service whisperd /system/bin/whisperd /dev/ttyHS0
+    class core
+    user root
+    oneshot
